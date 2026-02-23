@@ -18,7 +18,7 @@ Class {
 { #category : 'instance creation' }
 ACPChatPresenter class >> claude [
 
-	^ self new agentCommandArguments: #( 'claude' '--acp' )
+	^ self new agentCommandArguments: #( 'claude-code-acp' )
 ]
 
 { #category : 'instance creation' }
@@ -75,7 +75,8 @@ ACPChatPresenter >> connectPresenters [
 		text := inputField text trim.
 		text isEmpty ifFalse: [
 			inputField text: ''.
-			self sendMessage: text ] ]
+			self sendMessage: text ] ].
+	self disableInput
 ]
 
 { #category : 'layout' }
@@ -100,9 +101,10 @@ ACPChatPresenter >> disconnect [
 { #category : 'api' }
 ACPChatPresenter >> open [
 
-    [
-	    self setupClient.
-	    self connectToAgent.
+	[
+		self setupClient.
+		self connectToAgent.
+		self defer: [ self enableInput ]
 	] fork.
 	super open
 ]
@@ -123,12 +125,15 @@ ACPChatPresenter >> appendUserMessage: aString [
 ACPChatPresenter >> sendMessage: aString [
 
 	self appendUserMessage: aString.
+	self disableInput.
 	agentMessageStarted := false.
 	[
 		client promptBy: [ :params |
 			params sessionId: sessionId.
 			params textPrompt: aString ].
-		self appendText: String lf , String lf
+		self defer: [
+			self appendText: String lf , String lf.
+			self enableInput ]
 	] fork
 ]
 
@@ -140,7 +145,7 @@ ACPChatPresenter >> sessionUpdate: aSessionUpdate [
 	    ifFalse: [ ^ self ].
 	text := aSessionUpdate content text.
 	text ifNil: [ ^ self ].
-	UIManager default defer: [
+	self defer: [
 		agentMessageStarted ifFalse: [
 			self appendText: 'AGENT: '.
 			agentMessageStarted := true ].
@@ -151,6 +156,20 @@ ACPChatPresenter >> sessionUpdate: aSessionUpdate [
 ACPChatPresenter >> requestPermission: anACPRequestPermission [
 
 	^ anACPRequestPermission makeResponse allowAlways
+]
+
+{ #category : 'private' }
+ACPChatPresenter >> enableInput [
+
+	inputField enabled: true.
+	sendButton enabled: true
+]
+
+{ #category : 'private' }
+ACPChatPresenter >> disableInput [
+
+	inputField enabled: false.
+	sendButton enabled: false
 ]
 
 { #category : 'private' }
