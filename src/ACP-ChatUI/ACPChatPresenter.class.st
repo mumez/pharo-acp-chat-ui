@@ -50,7 +50,7 @@ ACPChatPresenter >> connectPresenters [
 
 	sendButton action: [
 		| text |
-		text := inputField text trimSeparators.
+		text := inputField text trim.
 		text isEmpty ifFalse: [
 			inputField text: ''.
 			self sendMessage: text ] ]
@@ -106,14 +106,16 @@ ACPChatPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter
 		title: 'ACP Chat';
 		initialExtent: 640 @ 520.
-	aWindowPresenter whenClosedDo: [ self disconnect ]
+	aWindowPresenter whenClosedDo: [ [self disconnect] fork ]
 ]
 
 { #category : 'api' }
 ACPChatPresenter >> open [
 
-	self setupClient.
-	self connectToAgent.
+    [
+	    self setupClient.
+	    self connectToAgent.
+	] fork.
 	super open
 ]
 
@@ -132,7 +134,7 @@ ACPChatPresenter >> sendMessage: aString [
 		client promptBy: [ :params |
 			params sessionId: sessionId.
 			params textPrompt: aString ].
-		UIManager default defer: [ self appendText: String lf , String lf ]
+		self appendText: String lf , String lf
 	] fork
 ]
 
