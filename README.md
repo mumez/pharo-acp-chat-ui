@@ -8,7 +8,7 @@ This project serves as a simple, working example of how to build an agent chat U
 
 - Pharo 12 or later
 - [pharo-acp](https://github.com/mumez/pharo-acp) (loaded automatically via Baseline)
-- Gemini CLI (`gemini --experimental-acp`) or [claude-code-acp](https://github.com/zed-industries/zed) wrapper command installed and available in PATH
+- Gemini CLI (`gemini --experimental-acp`) or [claude-code-acp](https://github.com/zed-industries/claude-agent-acp) wrapper command installed and available in PATH
 - On Windows: WSL required (OSSubprocess does not support Windows)
 
 ## Installation
