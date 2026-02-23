@@ -33,58 +33,16 @@ ACPChatPresenter >> agentCommandArguments: anArray [
 	agentCommandArguments := anArray
 ]
 
-{ #category : 'api' }
-ACPChatPresenter >> appendText: aString [
+{ #category : 'accessing' }
+ACPChatPresenter >> workingDirectory [
 
-	messageDisplay text: messageDisplay text , aString
+	^ workingDirectory ifNil: [ workingDirectory := FileSystem workingDirectory ]
 ]
 
-{ #category : 'api' }
-ACPChatPresenter >> appendUserMessage: aString [
+{ #category : 'accessing' }
+ACPChatPresenter >> workingDirectory: aPathString [
 
-	messageDisplay text: messageDisplay text , 'YOU: ' , aString , String lf , String lf
-]
-
-{ #category : 'initialization' }
-ACPChatPresenter >> connectPresenters [
-
-	sendButton action: [
-		| text |
-		text := inputField text trim.
-		text isEmpty ifFalse: [
-			inputField text: ''.
-			self sendMessage: text ] ]
-]
-
-{ #category : 'private' }
-ACPChatPresenter >> connectToAgent [
-
-	| sessionResult |
-	client connect.
-	client initialize: ACPInitializeParams new.
-	sessionResult := client newSessionBy: [ :params |
-		params cwd: self workingDirectory fullName ].
-	sessionId := sessionResult sessionId.
-	agentMessageStarted := false
-]
-
-{ #category : 'layout' }
-ACPChatPresenter >> defaultLayout [
-
-	^ SpBoxLayout newTopToBottom
-		  add: messageDisplay;
-		  add: (SpBoxLayout newLeftToRight
-				   add: inputField;
-				   add: sendButton width: 70;
-				   yourself)
-		  expand: false;
-		  yourself
-]
-
-{ #category : 'api' }
-ACPChatPresenter >> disconnect [
-
-	client ifNotNil: [ client disconnect ]
+	workingDirectory := aPathString asFileReference
 ]
 
 { #category : 'initialization' }
@@ -109,6 +67,36 @@ ACPChatPresenter >> initializeWindow: aWindowPresenter [
 	aWindowPresenter whenClosedDo: [ [self disconnect] fork ]
 ]
 
+{ #category : 'initialization' }
+ACPChatPresenter >> connectPresenters [
+
+	sendButton action: [
+		| text |
+		text := inputField text trim.
+		text isEmpty ifFalse: [
+			inputField text: ''.
+			self sendMessage: text ] ]
+]
+
+{ #category : 'layout' }
+ACPChatPresenter >> defaultLayout [
+
+	^ SpBoxLayout newTopToBottom
+		  add: messageDisplay;
+		  add: (SpBoxLayout newLeftToRight
+				   add: inputField;
+				   add: sendButton width: 70;
+				   yourself)
+		  expand: false;
+		  yourself
+]
+
+{ #category : 'api' }
+ACPChatPresenter >> disconnect [
+
+	client ifNotNil: [ client disconnect ]
+]
+
 { #category : 'api' }
 ACPChatPresenter >> open [
 
@@ -119,10 +107,16 @@ ACPChatPresenter >> open [
 	super open
 ]
 
-{ #category : 'agent-callbacks' }
-ACPChatPresenter >> requestPermission: anACPRequestPermission [
+{ #category : 'api' }
+ACPChatPresenter >> appendText: aString [
 
-	^ anACPRequestPermission makeResponse allowAlways
+	messageDisplay text: messageDisplay text , aString
+]
+
+{ #category : 'api' }
+ACPChatPresenter >> appendUserMessage: aString [
+
+	messageDisplay text: messageDisplay text , 'YOU: ' , aString , String lf , String lf
 ]
 
 { #category : 'api' }
@@ -142,7 +136,8 @@ ACPChatPresenter >> sendMessage: aString [
 ACPChatPresenter >> sessionUpdate: aSessionUpdate [
 
 	| text |
-	aSessionUpdate isAgentMessageChunk ifFalse: [ ^ self ].
+	(aSessionUpdate isAgentMessageChunk or: [aSessionUpdate isAgentThoughtChunk])
+	    ifFalse: [ ^ self ].
 	text := aSessionUpdate content text.
 	text ifNil: [ ^ self ].
 	UIManager default defer: [
@@ -150,6 +145,12 @@ ACPChatPresenter >> sessionUpdate: aSessionUpdate [
 			self appendText: 'AGENT: '.
 			agentMessageStarted := true ].
 		self appendText: text ]
+]
+
+{ #category : 'agent-callbacks' }
+ACPChatPresenter >> requestPermission: anACPRequestPermission [
+
+	^ anACPRequestPermission makeResponse allowAlways
 ]
 
 { #category : 'private' }
@@ -160,14 +161,14 @@ ACPChatPresenter >> setupClient [
 	client agentCommand: '/usr/bin/env' arguments: agentCommandArguments
 ]
 
-{ #category : 'accessing' }
-ACPChatPresenter >> workingDirectory [
+{ #category : 'private' }
+ACPChatPresenter >> connectToAgent [
 
-	^ workingDirectory ifNil: [ workingDirectory := FileSystem workingDirectory ]
-]
-
-{ #category : 'accessing' }
-ACPChatPresenter >> workingDirectory: aPathString [
-
-	workingDirectory := aPathString asFileReference
+	| sessionResult |
+	client connect.
+	client initialize: ACPInitializeParams new.
+	sessionResult := client newSessionBy: [ :params |
+		params cwd: self workingDirectory fullName ].
+	sessionId := sessionResult sessionId.
+	agentMessageStarted := false
 ]
