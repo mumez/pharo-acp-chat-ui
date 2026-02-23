@@ -51,7 +51,7 @@ ACPChatPresenter >> initializePresenters [
 	messageDisplay := self newText.
 	messageDisplay beNotEditable.
 
-	inputField := self newTextInput.
+	inputField := self newText.
 	inputField placeholder: 'Type your message...'.
 
 	sendButton := self newButton.
@@ -87,7 +87,7 @@ ACPChatPresenter >> defaultLayout [
 				   add: inputField;
 				   add: sendButton width: 70;
 				   yourself)
-		  expand: false;
+		  withConstraints: [ :c | c height: 80 ];
 		  yourself
 ]
 
