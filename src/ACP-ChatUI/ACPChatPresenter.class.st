@@ -118,7 +118,11 @@ ACPChatPresenter >> appendText: aString [
 { #category : 'api' }
 ACPChatPresenter >> appendUserMessage: aString [
 
-	messageDisplay text: messageDisplay text , 'YOU: ' , aString , String lf , String lf
+	| prefix |
+	prefix := messageDisplay text isEmpty
+		          ifTrue: [ '' ]
+		          ifFalse: [ String lf , String lf ].
+	messageDisplay text: messageDisplay text , prefix , 'YOU: ' , aString , String lf , String lf
 ]
 
 { #category : 'api' }
