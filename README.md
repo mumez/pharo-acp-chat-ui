@@ -2,13 +2,15 @@
 
 A minimal chat GUI for [pharo-acp](https://github.com/mumez/pharo-acp) — the ACP (Agent Client Protocol) client library for Pharo Smalltalk.
 
-This project serves as a simple, working example of how to build an agent chat UI using pharo-acp with Gemini CLI or Claude Code as the backend agent.
+This project serves as a simple, working example of how to build an agent chat UI using pharo-acp with Gemini CLI, Claude Code, or OpenCode as the backend agent.
+
+![OpenCode simple chat](img/opencode-simple.png)
 
 ## Requirements
 
 - Pharo 12 or later
 - [pharo-acp](https://github.com/mumez/pharo-acp) (loaded automatically via Baseline)
-- Gemini CLI (`gemini --experimental-acp`) or [claude-code-acp](https://github.com/zed-industries/claude-agent-acp) wrapper command installed and available in PATH
+- Gemini CLI (`gemini --experimental-acp`), [claude-code-acp](https://github.com/zed-industries/claude-agent-acp) wrapper command, or [OpenCode](https://github.com/anomalyco/opencode) (`opencode acp`) installed and available in PATH
 - On Windows: WSL required (OSSubprocess does not support Windows)
 
 ## Installation
@@ -109,6 +111,25 @@ aWindowPresenter whenClosedDo: [ [ client disconnect ] fork ]
 | `ACPSessionUpdate >> isAgentThoughtChunk` | True when the update carries a thinking/reasoning chunk |
 | `ACPSessionUpdate >> content text` | The text content of the chunk |
 | `ACPRequestPermission >> makeResponse allowAlways` | Grant permission for all tool use requests |
+
+## More Screenshots
+
+An example session with Claude Code, pointing to a local clone of [SState](https://github.com/mumez/SState):
+
+```smalltalk
+(ACPChatPresenter claude)
+    workingDirectory: '/path/to/git/SState';
+    open.
+```
+
+SState is not loaded into the image, but by specifying `workingDirectory:` the agent's context is scoped to that project directory.
+
+![Claude Code chat 1](img/claude-sstate-1.png)
+![Claude Code chat 2](img/claude-sstate-2.png)
+
+Multi-byte (non-ASCII) characters are also supported:
+
+![Claude Code chat 3](img/claude-sstate-3.png)
 
 ## License
 

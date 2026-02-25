@@ -27,6 +27,12 @@ ACPChatPresenter class >> gemini [
 	^ self new agentCommandArguments: #( 'gemini' '--experimental-acp' )
 ]
 
+{ #category : 'instance creation' }
+ACPChatPresenter class >> openCode [
+
+	^ self new agentCommandArguments: #( 'opencode' 'acp' )
+]
+
 { #category : 'accessing' }
 ACPChatPresenter >> agentCommandArguments: anArray [
 
