@@ -28,6 +28,18 @@ ACPChatPresenter class >> gemini [
 ]
 
 { #category : 'instance creation' }
+ACPChatPresenter class >> codex [
+
+	^ self new agentCommandArguments: #( 'codex-acp' )
+]
+
+{ #category : 'instance creation' }
+ACPChatPresenter class >> copilot [
+
+	^ self new agentCommandArguments: #( 'copilot' '--acp' '--stdio' )
+]
+
+{ #category : 'instance creation' }
 ACPChatPresenter class >> openCode [
 
 	^ self new agentCommandArguments: #( 'opencode' 'acp' )
