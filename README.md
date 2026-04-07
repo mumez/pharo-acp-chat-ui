@@ -2,7 +2,7 @@
 
 A minimal chat GUI for [pharo-acp](https://github.com/mumez/pharo-acp) — the ACP (Agent Client Protocol) client library for Pharo Smalltalk.
 
-This project serves as a simple, working example of how to build an agent chat UI using pharo-acp with Gemini CLI, Claude Code, or OpenCode as the backend agent.
+This project serves as a simple, working example of how to build an agent chat UI using pharo-acp with Gemini CLI, Claude Code, OpenCode, GitHub Copilot CLI, or Codex as the backend agent.
 
 ![OpenCode simple chat](img/opencode-simple.png)
 
@@ -10,7 +10,12 @@ This project serves as a simple, working example of how to build an agent chat U
 
 - Pharo 12 or later
 - [pharo-acp](https://github.com/mumez/pharo-acp) (loaded automatically via Baseline)
-- Gemini CLI (`gemini --acp`), [claude-agent-mcp](https://github.com/agentclientprotocol/claude-agent-acp) wrapper command, or [OpenCode](https://github.com/anomalyco/opencode) (`opencode acp`) installed and available in PATH
+- One of the following ACP-compatible agents installed and available in PATH:
+  - [Gemini CLI](https://github.com/google-gemini/gemini-cli) — `gemini --acp`
+  - [claude-agent-mcp](https://github.com/agentclientprotocol/claude-agent-acp) — `claude-agent-mcp`
+  - [OpenCode](https://github.com/anomalyco/opencode) — `opencode acp`
+  - [Copilot CLI](https://docs.github.com/en/copilot/reference/copilot-cli-reference/acp-server) — `copilot --acp --stdio`
+  - [codex-acp](https://github.com/zed-industries/codex-acp) — `codex-acp`
 - On Windows: WSL required (OSSubprocess does not support Windows)
 
 ## Installation
