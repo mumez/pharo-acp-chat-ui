@@ -10,7 +10,7 @@ This project serves as a simple, working example of how to build an agent chat U
 
 - Pharo 12 or later
 - [pharo-acp](https://github.com/mumez/pharo-acp) (loaded automatically via Baseline)
-- Gemini CLI (`gemini --experimental-acp`), [claude-code-acp](https://github.com/zed-industries/claude-agent-acp) wrapper command, or [OpenCode](https://github.com/anomalyco/opencode) (`opencode acp`) installed and available in PATH
+- Gemini CLI (`gemini --acp`), [claude-agent-mcp](https://github.com/agentclientprotocol/claude-agent-acp) wrapper command, or [OpenCode](https://github.com/anomalyco/opencode) (`opencode acp`) installed and available in PATH
 - On Windows: WSL required (OSSubprocess does not support Windows)
 
 ## Installation
@@ -30,7 +30,7 @@ Open a chat window with Gemini CLI:
 ACPChatPresenter gemini open.
 ```
 
-Open a chat window with Claude Code (via `claude-code-acp` wrapper):
+Open a chat window with Claude Code (via `claude-agent-mcp` wrapper):
 
 ```smalltalk
 ACPChatPresenter claude open.

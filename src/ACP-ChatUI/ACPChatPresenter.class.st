@@ -18,13 +18,13 @@ Class {
 { #category : 'instance creation' }
 ACPChatPresenter class >> claude [
 
-	^ self new agentCommandArguments: #( 'claude-code-acp' )
+	^ self new agentCommandArguments: #( 'claude-agent-mcp' )
 ]
 
 { #category : 'instance creation' }
 ACPChatPresenter class >> gemini [
 
-	^ self new agentCommandArguments: #( 'gemini' '--experimental-acp' )
+	^ self new agentCommandArguments: #( 'gemini' '--acp' )
 ]
 
 { #category : 'instance creation' }
