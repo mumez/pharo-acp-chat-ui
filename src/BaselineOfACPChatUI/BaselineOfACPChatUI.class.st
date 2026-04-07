@@ -11,7 +11,7 @@ BaselineOfACPChatUI >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		spec
-			baseline: 'ACP' with: [ spec repository: 'github://mumez/pharo-acp/src' ];
+			baseline: 'ACP' with: [ spec repository: 'github://mumez/pharo-acp:main/src' ];
 			package: 'ACP-ChatUI' with: [ spec requires: #( 'ACP' ) ]
 	]
 ]
