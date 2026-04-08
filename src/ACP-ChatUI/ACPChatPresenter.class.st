@@ -18,7 +18,7 @@ Class {
 { #category : 'instance creation' }
 ACPChatPresenter class >> claude [
 
-	^ self new agentCommandArguments: #( 'claude-agent-mcp' )
+	^ self new agentCommandArguments: #( 'claude-agent-acp' )
 ]
 
 { #category : 'instance creation' }

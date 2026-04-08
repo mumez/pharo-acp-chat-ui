@@ -12,7 +12,7 @@ This project serves as a simple, working example of how to build an agent chat U
 - [pharo-acp](https://github.com/mumez/pharo-acp) (loaded automatically via Baseline)
 - One of the following ACP-compatible agents installed and available in PATH:
   - [Gemini CLI](https://github.com/google-gemini/gemini-cli) — `gemini --acp`
-  - [claude-agent-mcp](https://github.com/agentclientprotocol/claude-agent-acp) — `claude-agent-mcp`
+  - [claude-agent-acp](https://github.com/agentclientprotocol/claude-agent-acp) — `claude-agent-acp`
   - [OpenCode](https://github.com/anomalyco/opencode) — `opencode acp`
   - [Copilot CLI](https://docs.github.com/en/copilot/reference/copilot-cli-reference/acp-server) — `copilot --acp --stdio`
   - [codex-acp](https://github.com/zed-industries/codex-acp) — `codex-acp`
@@ -35,7 +35,7 @@ Open a chat window with Gemini CLI:
 ACPChatPresenter gemini open.
 ```
 
-Open a chat window with Claude Code (via `claude-agent-mcp` wrapper):
+Open a chat window with Claude Code (via `claude-agent-acp` wrapper):
 
 ```smalltalk
 ACPChatPresenter claude open.
